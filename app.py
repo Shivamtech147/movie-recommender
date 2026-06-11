@@ -30,6 +30,27 @@ st.markdown("""
         border-right: 1px solid #23232F;
     }
     
+    /* Sidebar text color overrides for visibility */
+    section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] p,
+    section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] span,
+    section[data-testid="stSidebar"] [data-testid="stWidgetLabel"] {
+        color: #FFFFFF !important;
+        font-weight: 600 !important;
+        font-size: 15px !important;
+    }
+    
+    section[data-testid="stSidebar"] [data-testid="stRadio"] label p {
+        color: #E2E2E9 !important;
+        font-weight: 500 !important;
+        font-size: 14.5px !important;
+    }
+    
+    section[data-testid="stSidebar"] .stMarkdown p,
+    section[data-testid="stSidebar"] .stMarkdown span {
+        color: #C2C2CD !important;
+        font-size: 14px !important;
+    }
+    
     /* Header/Title banner */
     .main-title {
         background: linear-gradient(135deg, #FF1E27 0%, #B00612 100%);
