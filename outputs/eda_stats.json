@@ -1,0 +1,104 @@
+{
+    "num_ratings": 633620,
+    "num_users": 10000,
+    "num_movies": 1998,
+    "sparsity_percent": 96.82872872872873,
+    "density_percent": 3.171271271271266,
+    "rating_mean": 3.6039313784287113,
+    "rating_std": 1.0710116676469956,
+    "rating_median": 4.0,
+    "top_rated_movies_count": [
+        {
+            "title": "Pirates of the Caribbean: The Curse of the Black Pearl",
+            "rating_count": 8243
+        },
+        {
+            "title": "Lord of the Rings: The Fellowship of the Ring",
+            "rating_count": 7294
+        },
+        {
+            "title": "American Beauty",
+            "rating_count": 7242
+        },
+        {
+            "title": "The Silence of the Lambs",
+            "rating_count": 6835
+        },
+        {
+            "title": "Shrek 2",
+            "rating_count": 6657
+        },
+        {
+            "title": "Ghost",
+            "rating_count": 6233
+        },
+        {
+            "title": "The Last Samurai",
+            "rating_count": 6052
+        },
+        {
+            "title": "50 First Dates",
+            "rating_count": 5993
+        },
+        {
+            "title": "A Beautiful Mind",
+            "rating_count": 5908
+        },
+        {
+            "title": "Men in Black II",
+            "rating_count": 5725
+        }
+    ],
+    "best_movies_avg": [
+        {
+            "title": "Lost: Season 1",
+            "avg_rating": 4.658753709198813,
+            "rating_count": 337
+        },
+        {
+            "title": "The Simpsons: Season 6",
+            "avg_rating": 4.654275092936803,
+            "rating_count": 538
+        },
+        {
+            "title": "Red Dwarf: Series 5",
+            "avg_rating": 4.466666666666667,
+            "rating_count": 105
+        },
+        {
+            "title": "Lord of the Rings: The Fellowship of the Ring",
+            "avg_rating": 4.433918289004661,
+            "rating_count": 7294
+        },
+        {
+            "title": "The Godfather, Part II",
+            "avg_rating": 4.401720212496838,
+            "rating_count": 3953
+        },
+        {
+            "title": "CSI: Season 1",
+            "avg_rating": 4.4,
+            "rating_count": 900
+        },
+        {
+            "title": "Firefly",
+            "avg_rating": 4.391304347826087,
+            "rating_count": 552
+        },
+        {
+            "title": "Buffy the Vampire Slayer: Season 6",
+            "avg_rating": 4.38339222614841,
+            "rating_count": 566
+        },
+        {
+            "title": "Alias: Season 1",
+            "avg_rating": 4.380361173814898,
+            "rating_count": 886
+        },
+        {
+            "title": "Law & Order: Special Victims Unit: The Second Year",
+            "avg_rating": 4.330508474576271,
+            "rating_count": 118
+        }
+    ]
+}
