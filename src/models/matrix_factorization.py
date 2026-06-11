@@ -34,9 +34,9 @@ class MatrixFactorizationModel(nn.Module):
         nn.init.zeros_(self.user_biases.weight)
         nn.init.zeros_(self.movie_biases.weight)
         
-        # Initialize embeddings with small random values
-        nn.init.normal_(self.user_embeddings.weight, std=0.01)
-        nn.init.normal_(self.movie_embeddings.weight, std=0.01)
+        # Initialize embeddings with small random values (standard dev 0.05)
+        nn.init.normal_(self.user_embeddings.weight, std=0.05)
+        nn.init.normal_(self.movie_embeddings.weight, std=0.05)
         
         self.global_mean = nn.Parameter(torch.tensor(global_mean, dtype=torch.float32), requires_grad=False)
 
@@ -47,8 +47,8 @@ class MatrixFactorizationModel(nn.Module):
         # Dot product
         interaction = torch.sum(user_embeds * movie_embeds, dim=1)
         
-        user_bias = self.user_biases(user_indices).squeeze()
-        movie_bias = self.movie_biases(movie_indices).squeeze()
+        user_bias = self.user_biases(user_indices).squeeze(1)
+        movie_bias = self.movie_biases(movie_indices).squeeze(1)
         
         # Predict: dot_product + user_bias + movie_bias + global_mean
         preds = interaction + user_bias + movie_bias + self.global_mean

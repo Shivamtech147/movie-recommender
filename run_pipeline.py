@@ -60,7 +60,7 @@ def main():
     print("Evaluating Item-Based CF...")
     t_start = time.time()
     cf_pred_metrics = evaluate_predictions(test_df, model_cf)
-    cf_rank_metrics = evaluate_ranking(train_df, test_df, model_cf, k=10, relevance_threshold=3.5, sample_users_pct=0.1)
+    cf_rank_metrics = evaluate_ranking(train_df, test_df, model_cf, k=10, relevance_threshold=3.5, sample_users_pct=0.05)
     eval_time_cf = time.time() - t_start
     
     print_evaluation_summary(cf_pred_metrics, cf_rank_metrics, "Item-Based CF")
@@ -86,7 +86,7 @@ def main():
     # Model 2: Matrix Factorization (PyTorch)
     # --------------------------------------------------------
     print("\n--- STEP 4: Training Model 2 - PyTorch Matrix Factorization with Biases ---")
-    model_mf = MatrixFactorizationRecommender(embedding_dim=50, lr=0.005, weight_decay=0.01, epochs=12, batch_size=512)
+    model_mf = MatrixFactorizationRecommender(embedding_dim=50, lr=0.01, weight_decay=1e-5, epochs=15, batch_size=256)
     
     t_start = time.time()
     model_mf.fit(train_df)
@@ -95,7 +95,7 @@ def main():
     print("Evaluating Matrix Factorization...")
     t_start = time.time()
     mf_pred_metrics = evaluate_predictions(test_df, model_mf)
-    mf_rank_metrics = evaluate_ranking(train_df, test_df, model_mf, k=10, relevance_threshold=3.5, sample_users_pct=0.1)
+    mf_rank_metrics = evaluate_ranking(train_df, test_df, model_mf, k=10, relevance_threshold=3.5, sample_users_pct=0.05)
     eval_time_mf = time.time() - t_start
     
     print_evaluation_summary(mf_pred_metrics, mf_rank_metrics, "Matrix Factorization")
@@ -125,7 +125,7 @@ def main():
     # --------------------------------------------------------
     print("\n--- STEP 5: Training Model 3 - PyTorch Neural Collaborative Filtering ---")
     model_ncf = NeuralCollabFiltering(latent_dim_gmf=32, latent_dim_mlp=32, layers=[64, 32, 16, 8],
-                                      lr=0.001, weight_decay=1e-5, epochs=10, batch_size=512)
+                                      lr=0.001, weight_decay=1e-5, epochs=8, batch_size=1024)
     
     t_start = time.time()
     model_ncf.fit(train_df)
@@ -134,7 +134,7 @@ def main():
     print("Evaluating Neural Collaborative Filtering...")
     t_start = time.time()
     ncf_pred_metrics = evaluate_predictions(test_df, model_ncf)
-    ncf_rank_metrics = evaluate_ranking(train_df, test_df, model_ncf, k=10, relevance_threshold=3.5, sample_users_pct=0.1)
+    ncf_rank_metrics = evaluate_ranking(train_df, test_df, model_ncf, k=10, relevance_threshold=3.5, sample_users_pct=0.05)
     eval_time_ncf = time.time() - t_start
     
     print_evaluation_summary(ncf_pred_metrics, ncf_rank_metrics, "Neural CF (NCF)")

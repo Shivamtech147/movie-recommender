@@ -233,17 +233,22 @@ def parse_and_sample_ratings(min_user_ratings=50, min_movie_ratings=100,
     print(f"Filtered Users: {df_filtered['user_id'].nunique()}, Filtered Movies: {df_filtered['movie_id'].nunique()}")
 
     # Sample N users and M movies to form the dense subset
-    print(f"Sampling {num_users} users and {num_movies} movies...")
-    np.random.seed(random_state)
+    # Select top popular movies and top active users to ensure every item has adequate rating count
+    print(f"Selecting top {num_movies} popular movies and top {num_users} active users...")
     
-    unique_users = df_filtered['user_id'].unique()
-    sampled_users = np.random.choice(unique_users, size=min(num_users, len(unique_users)), replace=False)
+    # Get top popular movies
+    movie_popularity = df_filtered['movie_id'].value_counts()
+    sampled_movies = movie_popularity.head(num_movies).index.values
     
-    unique_movies = df_filtered['movie_id'].unique()
-    sampled_movies = np.random.choice(unique_movies, size=min(num_movies, len(unique_movies)), replace=False)
+    # Filter ratings to only popular movies
+    df_temp = df_filtered[df_filtered['movie_id'].isin(sampled_movies)]
     
-    # Slice intersection
-    df_sampled = df_filtered[df_filtered['user_id'].isin(sampled_users) & df_filtered['movie_id'].isin(sampled_movies)]
+    # Get top active users who rated these popular movies
+    user_activity = df_temp['user_id'].value_counts()
+    sampled_users = user_activity.head(num_users).index.values
+    
+    # Slice the final dataset
+    df_sampled = df_temp[df_temp['user_id'].isin(sampled_users)]
     
     print(f"Final sampled dataset shape: {df_sampled.shape}")
     print(f"Final Users: {df_sampled['user_id'].nunique()}, Final Movies: {df_sampled['movie_id'].nunique()}")
@@ -311,8 +316,8 @@ def run_pipeline():
     df_sample = parse_and_sample_ratings(
         min_user_ratings=50, 
         min_movie_ratings=100, 
-        num_users=10000, 
-        num_movies=2000
+        num_users=5000, 
+        num_movies=1500
     )
     split_data(df_sample)
     print("Data processing pipeline executed successfully!")
