@@ -24,7 +24,7 @@ class TechnicalReportPDF(FPDF):
         if self.page_no() > 1:
             self.set_font("Helvetica", "I", 8)
             self.set_text_color(120, 120, 120)
-            self.cell(0, 5, "Personalized Content Discovery - Netflix Prize Recommendation Engine", 0, 0, "L")
+            self.cell(140, 5, "Technical Report: Netflix Prize Recommendation Engine", 0, 0, "L")
             self.cell(0, 5, f"Page {self.page_no()}", 0, 1, "R")
             # Draw header line
             self.set_draw_color(220, 220, 225)
@@ -40,8 +40,8 @@ class TechnicalReportPDF(FPDF):
             self.set_draw_color(220, 220, 225)
             self.line(15, self.get_y(), 195, self.get_y())
             self.ln(2)
-            self.cell(0, 5, "Confidential - Academic & Research Report", 0, 0, "L")
-            self.cell(0, 5, "Machine Learning Engineering Team", 0, 1, "R")
+            self.cell(140, 5, "Technical Report - Netflix Personalization System", 0, 0, "L")
+            self.cell(0, 5, "Netflix Recommendation Suite", 0, 1, "R")
 
 class PresentationPDF(FPDF):
     """Custom FPDF layout for Slide Presentation (Landscape A4)."""
@@ -51,10 +51,10 @@ class PresentationPDF(FPDF):
         if self.page_no() > 1:
             self.set_font("Helvetica", "B", 10)
             self.set_text_color(229, 9, 20)  # Netflix Red
-            self.cell(0, 6, "NETFLIX PERSONALIZATION SYSTEM", 0, 0, "L")
+            self.cell(200, 6, "NETFLIX PERSONALIZATION SYSTEM", 0, 0, "L")
             self.set_font("Helvetica", "I", 9)
             self.set_text_color(180, 180, 180)
-            self.cell(0, 6, "Personalized Content Discovery Challenge", 0, 1, "R")
+            self.cell(0, 6, "Personalized Content Discovery Study", 0, 1, "R")
             self.set_draw_color(60, 60, 70)
             self.line(15, self.get_y(), 282, self.get_y())
             self.ln(5)
@@ -64,8 +64,8 @@ class PresentationPDF(FPDF):
             self.set_y(-12)
             self.set_font("Helvetica", "I", 8)
             self.set_text_color(130, 130, 135)
-            self.cell(0, 5, f"Slide {self.page_no()} of 8", 0, 0, "L")
-            self.cell(0, 5, "ML Personalization Hub", 0, 1, "R")
+            self.cell(200, 5, f"Slide {self.page_no()} of 8", 0, 0, "L")
+            self.cell(0, 5, "Netflix Personalization Engine Study", 0, 1, "R")
 
 def draw_section_header(pdf, title):
     pdf.set_font("Helvetica", "B", 14)
@@ -146,7 +146,7 @@ def generate_technical_report():
     pdf.ln(10)
     pdf.set_font("Helvetica", "B", 12)
     pdf.set_text_color(120, 120, 120)
-    pdf.cell(0, 5, "TEAM SUBMISSION & TECHNICAL RESEARCH REPORT", 0, 1, "C")
+    pdf.cell(0, 5, "TECHNICAL DESIGN & EVALUATION REPORT", 0, 1, "C")
     
     pdf.ln(30)
     # Abstract Card
@@ -178,13 +178,13 @@ def generate_technical_report():
     )
     pdf.multi_cell(160, 4.5, abstract_text, 0, "L")
     
-    pdf.set_xy(15, 200)
+    pdf.set_xy(15, 210)
     pdf.set_font("Helvetica", "B", 10)
     pdf.set_text_color(35, 35, 47)
-    pdf.cell(0, 5, "Participation Format: Team (Max 02 Participants)", 0, 1, "C")
+    pdf.cell(0, 6, "Netflix Prize Recommender Engine Study", 0, 1, "C")
     pdf.set_font("Helvetica", "", 10)
-    pdf.cell(0, 5, "Institution / Platform Challenge Submission", 0, 1, "C")
-    pdf.cell(0, 5, "Date: June 11, 2026", 0, 1, "C")
+    pdf.cell(0, 6, "Technical Design & Evaluation Report", 0, 1, "C")
+    pdf.cell(0, 6, "Date: June 2026", 0, 1, "C")
     
     # --------------------------------------------------------
     # PAGE 2: PROBLEM UNDERSTANDING & ARCHITECTURE
@@ -616,10 +616,10 @@ def generate_presentation():
     pdf.set_xy(30, 115)
     pdf.set_font("Helvetica", "B", 11)
     pdf.set_text_color(229, 9, 20)
-    pdf.cell(0, 6, "Team Challenge Submission | June 11, 2026", 0, 1, "L")
+    pdf.cell(0, 6, "System Design & Benchmark Evaluation | June 2026", 0, 1, "L")
     pdf.set_font("Helvetica", "", 10)
     pdf.set_text_color(180, 180, 180)
-    pdf.cell(0, 5, "Maximum Participants: 02 (ML Engineering & Data Science)", 0, 1, "L")
+    pdf.cell(0, 5, "Netflix Recommendation Suite Engine", 0, 1, "L")
     
     # --------------------------------------------------------
     # SLIDE 2: MOTIVATION & PROBLEM OVERVIEW
