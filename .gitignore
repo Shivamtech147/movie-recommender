@@ -40,3 +40,8 @@ data/processed/test.csv
 # Large serialized models
 outputs/models/*.pkl
 outputs/models/*.pth
+
+# Reports and generated PDFs (kept locally only)
+reports/
+final_reports/
+
