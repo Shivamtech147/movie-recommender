@@ -11,7 +11,7 @@ BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATA_DIR = os.path.join(BASE_DIR, "data", "processed")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
 PLOT_DIR = os.path.join(OUTPUT_DIR, "plots")
-REPORTS_DIR = os.path.join(BASE_DIR, "reports")
+REPORTS_DIR = os.path.join(BASE_DIR, "final_reports")
 
 # Ensure reports directory exists
 os.makedirs(REPORTS_DIR, exist_ok=True)
@@ -85,24 +85,24 @@ def draw_slide_title(pdf, title):
 def load_data_metrics():
     # Load fallback metrics first
     eda_stats = {
-        'num_ratings': 523648,
-        'num_users': 10000,
-        'num_movies': 2000,
-        'sparsity_percent': 97.38,
-        'density_percent': 2.62,
-        'rating_mean': 3.654,
-        'rating_std': 1.052,
-        'rating_median': 4.0
+        'num_ratings': 1872548,
+        'num_users': 5000,
+        'num_movies': 1500,
+        'sparsity_percent': 75.03,
+        'density_percent': 24.97,
+        'rating_mean': 3.391,
+        'rating_std': 1.100,
+        'rating_median': 3.0
     }
     comp_df = pd.DataFrame({
-        'RMSE': [0.9452, 0.8874, 0.8912],
-        'MAE': [0.7321, 0.6854, 0.6895],
-        'MAP@10': [0.0384, 0.0512, 0.0528],
-        'NDCG@10': [0.0562, 0.0712, 0.0745],
-        'Precision@10': [0.0410, 0.0523, 0.0535],
-        'Recall@10': [0.0210, 0.0285, 0.0298],
-        'Train Time (s)': [0.45, 15.24, 42.15],
-        'Eval Time (s)': [8.12, 3.42, 4.15]
+        'RMSE': [0.8675, 0.9131, 0.8213],
+        'MAE': [0.6684, 0.7116, 0.6347],
+        'MAP@10': [0.0179, 0.0276, 0.1627],
+        'NDCG@10': [0.0355, 0.0746, 0.2840],
+        'Precision@10': [0.0373, 0.0799, 0.2586],
+        'Recall@10': [0.0108, 0.0235, 0.0790],
+        'Train Time (s)': [1.16, 230.15, 95.54],
+        'Eval Time (s)': [0.32, 261.24, 373.78]
     }, index=['Item-Based CF', 'Matrix Factorization', 'Neural CF (NCF)'])
     
     # Try loading from actual runs
@@ -169,11 +169,12 @@ def generate_technical_report():
         "historical interaction records from the benchmark Netflix Prize Dataset. We design, implement, "
         "and compare three distinct recommendation approaches: an Item-Based Collaborative Filtering (IBCF) baseline, "
         "a PyTorch Latent Factor Model (SVD-like Matrix Factorization with Biases), and a deep learning Neural "
-        "Collaborative Filtering (NCF) model. Operating on a dense sample of 10,000 active users and 2,000 popular movies, "
+        "Collaborative Filtering (NCF) model. Operating on a dense sample of 5,000 active users and 1,500 popular movies, "
         "we analyze the trade-offs between rating prediction accuracy (RMSE) and recommendation list ranking performance "
-        "(MAP@10). Our final results demonstrate that while PyTorch Matrix Factorization minimizes prediction error "
-        "(RMSE = 0.88), deep Neural CF excels in ranking retrieval (MAP@10 = 0.053). We deploy our models "
-        "via a modern, interactive Streamlit dashboard featuring explainable recommendation overlays."
+        "(MAP@10). Our final results demonstrate that deep Neural Collaborative Filtering (NCF) achieves both the lowest "
+        "rating prediction error (RMSE = 0.8213) and the highest recommendation ranking performance (MAP@10 = 0.1627) "
+        "among the three models. We deploy our models via a modern, interactive Streamlit dashboard featuring explainable "
+        "recommendation overlays."
     )
     pdf.multi_cell(160, 4.5, abstract_text, 0, "L")
     
@@ -325,8 +326,8 @@ def generate_technical_report():
     cf_intro = (
         "Our first recommendation model is Item-Based Collaborative Filtering (IBCF), a memory-based approach. "
         "Unlike user-based methods, which struggle because user tastes are dynamic and computation scales with user counts ($O(U^2)$), "
-        "item-based collaborative filtering computes similarity between static item rating patterns. Since item count $M$ ($2,000$) "
-        "is smaller than user count $U$ ($10,000$), the similarity matrix is compact ($M \times M$) and stable.\n\n"
+        "item-based collaborative filtering computes similarity between static item rating patterns. Since item count $M$ ($1,500$) "
+        "is smaller than user count $U$ ($5,000$), the similarity matrix is compact ($M \\times M$) and stable.\n\n"
         "We implement Adjusted Cosine Similarity to compare movie rating vectors, which centers ratings by subtracting the "
         "respective user's mean rating to account for differences in rating scales (e.g. strict vs generous raters):"
     )
@@ -522,17 +523,18 @@ def generate_technical_report():
     
     res_analysis = (
         "Analysis of Results:\n"
-        "1. Rating Prediction (RMSE): PyTorch Matrix Factorization achieved the lowest error (RMSE = 0.8874), "
-        "closely followed by Neural CF (RMSE = 0.8912). Item-CF, being a memory-based method, had a higher error "
-        "(RMSE = 0.9452), showing that latent factor factorization is superior for rating regression.\n\n"
-        "2. Ranking Performance (MAP@10): Interestingly, although Matrix Factorization outperformed on RMSE, "
-        "Neural CF (NCF) achieved the highest ranking quality (MAP@10 = 0.0528, NDCG@10 = 0.0745). This confirms the "
-        "RMSE-MAP trade-off: minimizing squared rating residuals does not guarantee optimal ranked listings. "
-        "NCF's deep multi-layer neural network learns non-linear user-item boundaries, which excels at ranking relevant "
-        "items high.\n\n"
-        "3. Computational Complexity: Item-CF requires 0s training time, but inference requires computing similarities "
-        "across all item pairs ($O(M^2)$). In contrast, Matrix Factorization takes ~15 seconds to train, but generating "
-        "recommendations requires only a single matrix multiplication ($O(d \\cdot M)$), making it highly scalable."
+        "1. Rating Prediction (RMSE): Deep Neural Collaborative Filtering (NCF) achieved the lowest error (RMSE = 0.8213), "
+        "outperforming Item-Based CF (RMSE = 0.8675) and Matrix Factorization (RMSE = 0.9131). This indicates that NCF's "
+        "hybrid architecture (combining linear GMF and non-linear MLP layers) is highly effective at minimizing prediction residuals "
+        "on the test set.\n\n"
+        "2. Ranking Performance (MAP@10): Neural CF (NCF) achieved the highest ranking quality (MAP@10 = 0.1627, NDCG@10 = 0.2840, "
+        "and Precision@10 = 0.2586), far outperforming Matrix Factorization (MAP@10 = 0.0276) and Item-Based CF (MAP@10 = 0.0179). "
+        "This dramatic difference highlights NCF's capacity to learn high-quality ranked lists. Its non-linear layers learn "
+        "expressive decision boundaries that place relevant items at the top of the user's recommendation shelf.\n\n"
+        "3. Computational Complexity: Item-CF requires very little training time (1.16 seconds) but suffers from high computational "
+        "overhead at inference time due to similarity searches. Matrix Factorization takes longer to train (230.15 seconds for 12 epochs) "
+        "due to evaluation steps, while NCF trains in 95.54 seconds (10 epochs) and provides highly scalable, real-time recommendation "
+        "retrieval via forward passes."
     )
     pdf.multi_cell(0, 5, res_analysis)
     
@@ -853,10 +855,9 @@ def generate_presentation():
     pdf.set_text_color(180, 180, 185)
     pdf.set_xy(200, 50)
     pdf.multi_cell(78, 4.5,
-                   "- RMSE vs MAP@10 Trade-off: SVD Matrix Factorization optimizes rating predictions directly (RMSE=0.88), "
-                   "but Neural CF (NCF) outperforms SVD in recommendation ranking (MAP@10 = 0.053).\n\n"
-                   "- NCF Capacity: Non-linear MLP layers in NCF learn complex decision boundaries that excel at ranking relevant items highly in retrieval.\n\n"
-                   "- Real-Time Scalability: Item-CF requires zero training but scales poorly at inference ($O(M^2)$). Latent SVD is highly scalable ($O(d \\cdot M)$)."
+                   "- Best Model: Neural CF (NCF) achieves both the lowest rating error (RMSE = 0.8213) and highest ranking accuracy (MAP@10 = 0.1627).\n\n"
+                   "- Non-Linear Learning: NCF's deep neural networks learn complex decision boundaries that excel at placing relevant items high on the user's shelf.\n\n"
+                   "- Computational Trade-off: Item-CF is fast to train but slow at inference, while PyTorch-based NCF and SVD scale efficiently for real-time recommendations."
     )
     
     # --------------------------------------------------------
