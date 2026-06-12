@@ -1409,7 +1409,7 @@ def main():
             fig_top10, ax_top10 = plt.subplots(figsize=(6, 5))
             
             import matplotlib.cm as cm
-            colors = cm.get_cmap('magma')(np.linspace(0.2, 0.8, len(top20)))
+            colors = plt.get_cmap('magma')(np.linspace(0.2, 0.8, len(top20)))
             bars = ax_top10.barh(top20['Movie Title'], top20['Ratings Count'], color=colors, edgecolor='black', height=0.7)
             apply_matplotlib_theme(fig_top10, ax_top10, x_title="Number of Ratings", y_title="", title="Top 20 Most Rated Movies")
             ax_top10.invert_yaxis()
